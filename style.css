@@ -23,7 +23,7 @@ body {
 }
 
 .game-wrap {
-  position: relative;
+  position: absolute;
   padding: 20px 0 0;
 }
 
