@@ -371,7 +371,7 @@ Enemy.prototype.die = function(){
 };
 
 Enemy.prototype.explode = function(){
-	for(var i=1; i<Game.maxParticles; i++){
+	for(var i=0; i<Game.maxParticles; i++){
     new Particle(this.x + this.width/2, this.y, this.color);
   }
 };
