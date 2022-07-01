@@ -17,7 +17,7 @@ var Game = {
 		this.enemyIndex = 0;
 		this.particleIndex = 0;
 		this.maxParticles = 10;
-		this.maxEnemies = 6;
+		this.maxEnemies = 7;
 		this.enemiesAlive = 0;
 		this.currentFrame = 0;
 		this.maxLives = 3;
@@ -166,6 +166,20 @@ var Game = {
 					currentEnemy.shoot();
 				}
 			}
+			for (var xy in Game.enemies) {
+				if(Game.score > 300) {
+					currentEnemy.speed = Game.random(4,5);
+					}
+				else if(Game.score > 600) {
+					currentEnemy.speed = Game.random(6,7);
+						}
+				else if (Game.score > 900) {
+					currentEnemy.speed = Game.random(8,9);
+						}
+				else if (Game.score > 1200) {
+					currentEnemy.speed = Game.random(10,11);
+						}
+			}
 			for(var x in Game.enemyBullets){
 				Game.enemyBullets[x].draw();
 				Game.enemyBullets[x].update();
@@ -302,9 +316,13 @@ var Enemy = function(){
 	this.shootingSpeed = Game.random(30, 80);
 	this.movingLeft = Math.random() < 0.5 ? true : false;
 	this.color = "hsl("+ Game.random(0, 360) +", 60%, 50%)";
-	
+
 };
 
+Enemy.prototype.speed = function(){
+	this.speed = Game.random(0, 0);
+	this.shootingSpeed = Game.random(0, 0);
+}
 
 Enemy.prototype.draw = function(){
 	Game.ctx.fillStyle = this.color;
@@ -341,19 +359,19 @@ Enemy.prototype.update = function(){
 Enemy.prototype.die = function(){
   this.explode();
   delete Game.enemies[this.index];
-  Game.score += 15;
+  Game.score += 20;
   Game.enemiesAlive = Game.enemiesAlive > 1 ? Game.enemiesAlive - 1 : 0;
   if(Game.enemiesAlive < Game.maxEnemies){
   	Game.enemiesAlive++;
   	setTimeout(function(){
   		new Enemy();
-	  }, 2000);
+	  }, 500);
 	}
   
 };
 
 Enemy.prototype.explode = function(){
-	for(var i=0; i<Game.maxParticles; i++){
+	for(var i=1; i<Game.maxParticles; i++){
     new Particle(this.x + this.width/2, this.y, this.color);
   }
 };
@@ -363,8 +381,8 @@ Enemy.prototype.shoot = function(){
 };
 
 var EnemyBullet = function(x, y, color){
-	this.width = 8;
-	this.height = 20;
+	this.width = 20;
+	this.height = 15;
 	this.x = x;
 	this.y = y;
 	this.vy = 6;
